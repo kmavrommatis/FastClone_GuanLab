@@ -145,6 +145,8 @@ def _get_density_peaks(samples, grid_count=200):
     """
     kde = scipy.stats.gaussian_kde(samples.values.flatten())
     delta = 0.5 / grid_count
+    kde.covariance_factor = lambda: .10
+    kde._compute_covariance()
     x = numpy.linspace(delta, 1.0 - delta, grid_count)
     logpdf = kde.logpdf(x)
     maxidx = list(scipy.signal.argrelmax(logpdf)[0])
